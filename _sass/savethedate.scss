@@ -49,7 +49,7 @@ body {
   &:before {
     content: '';
     display: block;
-    z-index: -1;
+    z-index: 0;
     position: absolute;
     top: 0;
     left: 0;
@@ -97,6 +97,11 @@ body {
     opacity: 1;
     margin-top: 0;
   }
+}
+
+main.page-content {
+  z-index: 1;
+  position: relative;
 }
 
 #home {
