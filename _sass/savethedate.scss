@@ -1,5 +1,43 @@
 @charset "utf-8";
 
+$mq-breakpoints: (
+        mobile: 390px,
+        tabletSmall: 680px,
+        tablet: 800px,
+);
+
+@import "vendor/mq-sass";
+
+@mixin nth-child-transition-delay($child-count: 1, $delay: 1000ms, $selector: false, $baseDelay: 0ms) {
+  @for $i from 1 through $child-count {
+    &:nth-child(#{$i}) {
+      @if $selector {
+        #{$selector} {
+          transition-delay: #{$baseDelay + ($delay * ($i - 1))};
+        }
+      } @else {
+        transition-delay: #{$baseDelay + ($delay * ($i - 1))};
+      }
+    }
+  }
+}
+
+@mixin nth-child-animation-delay($child-count: 1, $delay: 1000ms, $selector: false, $baseDelay: 0ms) {
+  @for $i from 1 through $child-count {
+    &:nth-child(#{$i}) {
+      @if $selector {
+        #{$selector} {
+          animation-delay: #{$baseDelay + ($delay * ($i - 1))};
+        }
+      } @else {
+        animation-delay: #{$baseDelay + ($delay * ($i - 1))};
+      }
+    }
+  }
+}
+
+$color-green: #6f845d;
+
 $foliage-offset: -15vw;
 $foliage-height: 65vw;
 $foliage-l-offset-bg-width: 88;
@@ -35,161 +73,611 @@ $foliage-l-offset-multiplier: 1.6;
 	-webkit-font-smoothing: antialiased;
 }
 
-%ready-transition {
-  $time: 1500ms;
-  transition: opacity $time ease, margin-top $time ease;
+html, body {
+  height: 100%;
+}
+
+a {
+  &,
+  &:visited {
+    color: #56ae36;
+  }
 }
 
 body {
 	margin: 0;
 	padding: 0;
 	font-family: 'Lumier Rounded';
+  font-size: 19px;
   overflow-x: hidden;
+  background: hsla(85, 100%, 99%, 0.28);
+  text-shadow: 1px 2px 1px hsla(85, 10%, 50%, 0.2);
+  color: #585858;
 
-  &:before {
-    content: '';
-    display: block;
-    z-index: 0;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-
-    @media only screen and (max-width: 900px) {
-      background: rgba(255, 255, 255, 0.8);
-    }
-
-    @media only screen and (max-width: 1199px) and (max-height: 970px) {
-      background: rgba(255, 255, 255, 0.85);
-    }
-  }
-
-	&:after {
-		content: '';
-		display: block;
-		z-index: -2;
-		position: absolute;
-		top: $foliage-offset;
-		left: 0;
-		background-image: url("/assets/images/foliage.jpg");
-		background-position: 50% 0;
-		background-size: 100% auto;
-		background-repeat: no-repeat;
-		width: 100%;
-		height: $foliage-height;
-    opacity: 0;
-    margin-top: -4vw;
-    @extend %ready-transition;
-
-    @media only screen and (max-width: 900px) {
-      height: $foliage-height * 2;
-      background-size: 200% auto;
-    }
-
-		@media only screen and (min-width: 1200px) {
-			top: (($foliage-offset / 100) * $foliage-l-offset-bg-width) * $foliage-l-offset-multiplier;
-			height: (($foliage-height / 100) * $foliage-l-offset-bg-width);
-			background-size: #{$foliage-l-offset-bg-width}% auto;
-		}
-	}
-  &.ready:after {
-    opacity: 1;
-    margin-top: 0;
+  @include mq($until: mobile) {
+    font-size: 16px;
+  
   }
 }
 
-main.page-content {
-  z-index: 1;
+h2 {
+  font-family: 'Ladies Rock';
+  text-transform: lowercase;
+  font-weight: 400;
+  font-size: 4rem;
+  margin: 0 0 1rem;
+
+  @include mq($until: mobile) {
+    font-size: 3rem;
+  }
+}
+
+img {
+  width: 100%;
+  height: auto;
+}
+
+a.button {
+  display: block;
+  text-decoration: none;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 700;
+
+  &.primary {
+    background: $color-green;
+    color: #f6ffee;
+    padding: 21px;
+    font-size: 39px;
+    letter-spacing: 2px;
+
+    @include mq($until: tabletSmall) {
+      font-size: 24px;
+    }
+  }
+
+  &.secondary {
+    border: 2px solid $color-green;
+    color: $color-green;
+    padding: 10px;
+    font-size: 20px;
+    letter-spacing: 1px;
+
+    @include mq($until: tabletSmall) {
+      font-size: 17px;
+    }
+  }
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.page-content {
   position: relative;
+  z-index: 1;
 }
 
-#home {
-	margin-top: $foliage-height + $foliage-offset + 4vw;
-	text-align: center;
-	text-transform: uppercase;
-	line-height: 1;
-	padding-bottom: 20vw;
+#footpath {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -2;
 
-  @media only screen and (min-width: 900px) and (max-width: 1199px) and (max-height: 970px) {
-    margin: 0;
-    padding: 0;
-    position: absolute;
-    top: 50%;
-    left: 0;
-    right: 0;
-    transform: translateY(-50%);
+  @include mq($until: tablet) {
+    opacity: 0.13;
   }
 
-	@media only screen and (min-width: 1200px) {
-		margin-top: (($foliage-height / 100) * $foliage-l-offset-bg-width) + ((($foliage-offset / 100) * $foliage-l-offset-bg-width) * $foliage-l-offset-multiplier) + 4vw;
-	}
+  // &.ready {
+  //  image {
+  //    opacity: 1;
+  //  }
+  // }
 
-	h1 {
-		text-transform: none;
-		font-size: 15vw;
-		line-height: 0.6;
-    margin: 0.6em 0 0.3em;
-    opacity: 0;
-    transition-delay: 200ms;
-    @extend %ready-transition;
+  // image {
+  //   @include nth-child-transition-delay(400, 10ms);
+  //   opacity: 0;
+  //   transition: 500ms ease opacity;
+  // }
+}
 
-    @media only screen and (max-width: 900px) {
-      font-size: 19vw;
+.boxes {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: repeat(12, auto);
+
+  @include mq($from: tablet) {
+    grid-template-columns: repeat(12, 1fr);
+  }
+
+  @include mq($until: tablet) {
+    grid-template-columns: 3fr repeat(10, 5fr) 3fr;
+  }
+}
+
+.box {
+  grid-row: span 1;
+
+  &#box-masthead {
+    grid-row: 1 / 2;
+    grid-column: 1 / 13;
+
+    #masthead {
+      display: grid;
+      grid-template-rows: auto 25vw repeat(2, auto);
+
+      @include mq($until: tabletSmall) {
+        grid-template-columns: 80px 2fr repeat(2, 5fr) 2fr 80px;
+      }
+
+      @include mq($from: tabletSmall, $until: tablet) {
+        grid-template-columns: 30px repeat(4, 1fr) 30px;
+      }
+
+      @include mq($from: tablet) {
+        grid-template-columns: repeat(6, 1fr);
+      }
+
+      #foliage {
+        grid-row: 1/3;
+        grid-column: 1/7;
+        width: 100%;
+        margin-top: -14%;
+        position: relative;
+        z-index: -1;
+      }
+
+      #date-location {
+        grid-row: 2 / 4;
+
+        @include mq($until: tabletSmall) {
+          grid-column: 2 / 6;
+        }
+
+        @include mq($from: tabletSmall) {
+          grid-column: 2 / 4;
+        }
+
+        svg {
+          width: 100%;
+          height: 100%;
+
+          @include mq($until: tabletSmall) {
+            transform: scale(1.5);
+          }
+
+          @include mq($from: tabletSmall) {
+            transform: scale(1.2);
+          }
+        }
+      }
+
+      #name-rsvp {
+        @include mq($until: tabletSmall) {
+          grid-column: 2 / 6;
+          margin: 15% 0 0;
+        }
+
+        @include mq($from: tabletSmall) {
+          grid-column: 4 / 6;
+          margin-top: -12%;
+          margin-left: -10%;
+        }
+
+        @include mq($from: tablet) {
+          margin-right: -10%;
+        }
+
+        svg {
+          width: 100%;
+          height: 100%;
+        }
+      }
+    }
+  }
+
+  &#box-content-intro {
+    color: $color-green;
+    grid-row: 2 / 3;
+    font-size: 2rem;
+    font-weight: 200;
+    padding: 6rem 0 3rem;
+
+    @include mq($from: tablet) {
+      grid-column: 2 / 9;
     }
 
-    body.ready & {
-      opacity: 1;
+    @include mq($until: tablet) {
+      grid-column: 2 / 12;
+      text-align: center;
     }
-	}
 
-	p {
-    	margin: 0.6em 0 1em;
-	}
+    .button {
+      @include mq($from: tablet) {
+        width: 35%;
+      }
+
+      @include mq($until: tablet) {
+        width: 280px;
+        margin: 0 auto;
+      }
+    }
+  }
+
+  &#box-content-sign-dreys {
+    grid-row: 2 / 3;
+    grid-column: 10 / 12;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    @include mq($until: tablet) {
+      grid-row: 3 / 4;
+      grid-column: 2 / 6;
+    }
+
+    img {
+      width: 70%;
+
+      @include mq($from: tablet) {
+        margin-left: -12%;
+      }
+    }
+  }
+
+  &#box-content-sign-count {
+    //grid-row: 3 / 4;
+    grid-column: 8 / 10;
+    transform: rotate(-15deg);
+
+    @include mq($until: tablet) {
+      grid-column: 8 / 12;
+    }
+
+    img {
+      margin-left: 2%;
+    }
+
+    #sign-count-numbers {
+      display: flex;
+      position: absolute;
+      top: 20%;
+      left: 23%;
+      width: 36%;
+      height: 22%;
+      justify-content: flex-end;
+
+      img {
+        width: 30%;
+        margin: 0 5% 0 0;
+      }
+    }
+  }
+
+  &#box-content-our-wedding-day {
+    //grid-row: 4 / 5;
+    padding: 5rem 0;
+    text-align: center;
+
+    @include mq($from: tablet) {
+      padding-left: 5%;
+      grid-column: 3 / 12;
+    }
+
+    @include mq($until: tablet) {
+      grid-column: 2 / 12;
+    }
+
+    @include mq($until: mobile) {
+      padding-bottom: 3rem;
+    }
+
+    p {
+      font-size: 1.4rem;
+      margin-left: 3rem;
+      margin-right: 3rem;
+
+      @include mq($until: mobile) {
+        font-size: 1.15rem;
+        margin-left: 0;
+        margin-right: 0;
+      }
+    }
+  }
+
+  &#box-forest {
+    @include mq($from: tablet) {
+      grid-column: 4 / 9;
+      padding: 8rem 0 6rem;
+    }
+
+    @include mq($until: tablet) {
+      grid-column: 2 / 11;
+      padding: 2rem;
+    }
+
+    @include mq($until: mobile) {
+      padding: 1rem 0 4rem;
+    }
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &#box-content-important-bits {
+    grid-column: 2 / 9;
+    padding-bottom: 5rem;
+
+    @include mq($until: tablet) {
+      grid-column: 2 / 11;
+    }
+
+    @include mq($until: mobile) {
+      margin-bottom: 2rem;
+    }
+  }
+
+  &#box-content-schedule,
+  &#box-content-accommodation,
+  &#box-content-gift-registry,
+  &#box-content-song-requests {
+    @include mq($from: tablet) {
+      padding: 8rem 0;
+    }
+    @include mq($from: mobile, $until: tablet) {
+      margin: 5rem 0;
+    }
+    @include mq($until: mobile) {
+      margin: 3rem 0;
+    }
+  }
+
+  &#box-content-schedule {
+    @include mq($from: tablet) {
+      grid-column: 7 / 12;
+    }
+
+    @include mq($until: tablet) {
+      grid-column: 3 / 12;
+    }
+  }
+
+  &#box-content-accommodation {
+    @include mq($from: tablet) {
+      grid-column: 2 / 8;
+    }
+
+    @include mq($until: tablet) {
+      grid-column: 2 / 11;
+    }
+  }
+
+  &#box-content-gift-registry {
+    @include mq($from: tablet) {
+      grid-column: 7 / 12;
+    }
+
+    @include mq($until: tablet) {
+      grid-column: 3 / 12;
+    }
+  }
+
+  &#box-content-song-requests {
+    @include mq($from: tablet) {
+      grid-column: 2 / 8;
+    }
+
+    @include mq($until: tablet) {
+      grid-column: 2 / 11;
+    }
+  }
 }
 
-.script {
-	font-family: 'Ladies Rock';
+#bit-tent1 {
+  grid-column: 10 / span 1;
+  grid-row: 6 / span 1;
+  transform: translateY(-21%) translateX(-115%);
+  width: 60%;
 
-	@at-root h1#{&} {
-		font-weight: normal;
-	}
+  @include mq($until: tablet) {
+    display: none;
+  }
 }
 
-#savethedate-intro-date {
-	font-size: 4.8vw;
-  opacity: 0;
-  transition-delay: 600ms;
-  @extend %ready-transition;
+#bit-tent2 {
+  grid-column: 10 / span 1;
+  grid-row: 6 / span 1;
+  transform: translateY(95%) translateX(24%);
+  width: 62%;
 
-  body.ready & {
-    opacity: 1;
+  @include mq($until: tablet) {
+    display: none;
   }
-
-  @media only screen and (max-width: 900px) {
-    font-size: 6.5vw;
-  }
-
-	span:not(:last-child) {
-		display: inline-block;
-		border-right: 0.4vw solid;
-		padding-right: 0.5em;
-		margin-right: 0.5em;
-	}
 }
 
-#savethedate-intro-vj {
-	font-weight: 300;
-	font-size: 2.8vw;
-  opacity: 0;
-  transition-delay: 700ms;
-  @extend %ready-transition;
+#bit-tent3 {
+  grid-column: 10 / span 1;
+  grid-row: 6 / span 1;
+  transform: translateY(-171%) translateX(-36%);
+  width: 60%;
 
-  @media only screen and (max-width: 900px) {
-    font-size: 4vw;
+  @include mq($until: tablet) {
+    display: none;
+  }
+}
+
+#bit-tent4 {
+  grid-column: 12 / span 1;
+  grid-row: 6 / span 1;
+  transform: translateY(-91%) translateX(-6%);
+  width: 60%;
+
+  @include mq($until: tablet) {
+    display: none;
+  }
+}
+
+#bit-tent5 {
+  grid-column: 12 / span 1;
+  grid-row: 6 / span 1;
+  transform: rotate(10deg) translateY(-230%) translateX(-120%);
+  width: 60%;
+
+  @include mq($until: tablet) {
+    display: none;
+  }
+}
+
+#bit-sign {
+  grid-column: 5 / span 1;
+  grid-row: 7 / span 1;
+  transform: rotate(17deg) translateY(230%) translateX(-10%);
+  width: 61%;
+  
+  @include mq($until: tablet) {
+    display: none;
+  }
+}
+
+#bit-people {
+  grid-column: 3 / span 1;
+  grid-row: 7 / span 1;
+  transform: rotate(-33deg) translateY(50%) translateX(-10%);
+  width: 91%;
+  
+  @include mq($until: tablet) {
+    display: none;
+  }
+}
+
+#bit-logs {
+  grid-column: 4 / span 1;
+  grid-row: 7 / span 1;
+  transform: translateY(330%) translateX(-30%);
+  width: 130%;
+  
+  @include mq($until: tablet) {
+    display: none;
+  }
+}
+
+#bit-tent6 {
+  grid-column: 10 / span 1;
+  grid-row: 9 / span 1;
+  transform: rotate(10deg) translateY(-370%) translateX(-80%);
+  width: 60%;
+  
+  @include mq($until: tablet) {
+    display: none;
+  }
+}
+
+#bit-tent7 {
+  grid-column: 9 / span 1;
+  grid-row: 9 / span 1;
+  transform: rotate(-10deg) translateY(-160%) translateX(0);
+  width: 60%;
+  
+  @include mq($until: tablet) {
+    display: none;
+  }
+}
+
+#bit-tent8 {
+  grid-column: 11 / span 1;
+  grid-row: 9 / span 1;
+  transform: rotate(10deg) translateY(-20%) translateX(0);
+  width: 62%;
+  
+  @include mq($until: tablet) {
+    display: none;
+  }
+}
+
+.swing {
+  -webkit-transform-origin: center center;
+  transform-origin: center center;
+  -webkit-animation-name: swing;
+  animation-name: swing
+}
+
+@-webkit-keyframes swing {
+  2% {
+    -webkit-transform: rotate(2deg);
+    transform: rotate(2deg)
   }
 
-  body.ready & {
-    opacity: 1;
+  5% {
+      -webkit-transform: rotate(-2deg);
+      transform: rotate(-2deg)
   }
+
+  7% {
+      -webkit-transform: rotate(2deg);
+      transform: rotate(2deg)
+  }
+
+  10% {
+      -webkit-transform: rotate(-2deg);
+      transform: rotate(-2deg)
+  }
+
+  15% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg)
+  }
+
+  to {
+      -webkit-transform: rotate(0deg);
+      transform: rotate(0deg)
+  }
+}
+
+@keyframes swing {
+  2% {
+      -webkit-transform: rotate(2deg);
+      transform: rotate(2deg)
+  }
+
+  5% {
+      -webkit-transform: rotate(-2deg);
+      transform: rotate(-2deg)
+  }
+
+  7% {
+      -webkit-transform: rotate(2deg);
+      transform: rotate(2deg)
+  }
+
+  10% {
+      -webkit-transform: rotate(-2deg);
+      transform: rotate(-2deg)
+  }
+
+  15% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg)
+  }
+
+  to {
+      -webkit-transform: rotate(0deg);
+      transform: rotate(0deg)
+  }
+}
+
+.animated {
+  -webkit-animation-duration: 3s;
+  animation-duration: 3s;
+  -webkit-animation-delay: 2s;
+  animation-delay: 2s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both
+}
+
+.animated.infinite {
+  -webkit-animation-iteration-count: infinite;
+  animation-iteration-count: infinite
 }

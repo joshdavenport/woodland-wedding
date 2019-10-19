@@ -30,6 +30,14 @@
         const dFootpath = d3.select('#footpath');
 
         function drawWalkway () {
+            const isMobile = window.innerWidth < 800;
+
+            const getCurve = () => isMobile ? d3.curveBasis : d3.curveNatural;
+
+            const getCoOrdinate = (axis) => {
+                return (d) => typeof d.mobile === 'undefined' && typeof d.desktop === 'undefined' ? d[axis] : d[isMobile ? 'mobile' : 'desktop'][axis];
+            };
+
             dFootpath.selectAll('*').remove();
 
             dFootpath.attr('width', $main.width())
@@ -46,94 +54,140 @@
             const elementGiftRegistry = getElementVariables('box-content-gift-registry');
             const elementSongRequests = getElementVariables('box-content-song-requests');
 
-            const points = [
-                {
-                    x: $main.width() * 0.1,
-                    y: 0
-                },
-                {
-                    x: $main.width() * 0.12,
-                    y: elementDateLocation.position.top - (elementDateLocation.sizing.height * 0.5)
-                },
-                {
-                    x: elementDateLocation.position.left + (elementDateLocation.sizing.width * 0.1),
-                    y: elementDateLocation.position.top - (elementDateLocation.sizing.height * 0.2)
-                },
-                {
-                    x: elementDateLocation.position.left + (elementDateLocation.sizing.width * 0.3),
-                    y: elementDateLocation.position.top + (elementDateLocation.sizing.height * 0.4)
-                },
-                {
-                    x: elementRsvp.position.left + (elementRsvp.sizing.width * 0.5),
-                    y: elementRsvp.position.top + (elementRsvp.sizing.height * 0.5)
-                },
-                {
-                    x: elementCountdown.position.left + (elementCountdown.sizing.width * 0.2),
-                    y: elementCountdown.position.top + (elementCountdown.sizing.height * 0.5)
-                },
-                {
-                    x: elementOurWeddingDay.position.left,
-                    y: elementOurWeddingDay.position.top + (elementOurWeddingDay.sizing.height * 0.1)
-                },
-                {
-                    x: elementOurWeddingDay.position.left,
-                    y: elementOurWeddingDay.position.top + (elementOurWeddingDay.sizing.height * 1.1)
-                },
-                {
-                    x: elementForest.position.left + (elementForest.sizing.width * 0.4),
-                    y: elementForest.position.top + (elementForest.sizing.height * 0.8)
-                },
-                {
-                    x: elementImportantBits.position.left + (elementImportantBits.sizing.width * 1.2),
-                    y: elementImportantBits.position.top
-                },
-                {
-                    x: elementImportantBits.position.left + (elementImportantBits.sizing.width * 1.2),
-                    y: elementImportantBits.position.top + (elementImportantBits.sizing.height * 0.9)
-                },
-                {
-                    x: elementSchedule.position.left - (elementSchedule.sizing.width * 0.7),
-                    y: elementSchedule.position.top + (elementSchedule.sizing.height * 0.2)
-                },
-                {
-                    x: elementSchedule.position.left - (elementSchedule.sizing.width * 0.7),
-                    y: elementSchedule.position.top + (elementSchedule.sizing.height * 0.9)
-                },
-                {
-                    x: elementAccommodation.position.left + (elementAccommodation.sizing.width * 1.4),
-                    y: elementAccommodation.position.top + (elementAccommodation.sizing.height * 0.2)
-                },
-                {
-                    x: elementAccommodation.position.left + (elementAccommodation.sizing.width * 1.4),
-                    y: elementAccommodation.position.top + (elementAccommodation.sizing.height * 0.9)
-                },
-                {
-                    x: elementGiftRegistry.position.left - (elementGiftRegistry.sizing.width * 0.7),
-                    y: elementGiftRegistry.position.top + (elementGiftRegistry.sizing.height * 0.2)
-                },
-                {
-                    x: elementGiftRegistry.position.left - (elementGiftRegistry.sizing.width * 0.7),
-                    y: elementGiftRegistry.position.top + (elementGiftRegistry.sizing.height * 0.9)
-                },
-                {
-                    x: elementSongRequests.position.left + (elementSongRequests.sizing.width * 1.4),
-                    y: elementSongRequests.position.top + (elementSongRequests.sizing.height * 0.5)
-                },
-                {
-                    x: elementSongRequests.position.left + (elementSongRequests.sizing.width * 1.4),
-                    y: elementSongRequests.position.top + (elementSongRequests.sizing.height * 1)
-                },
-                {
-                    x: elementSongRequests.position.left + (elementSongRequests.sizing.width * 1),
-                    y: $main.height() * 1.2
+            let points = _.filter(
+                [
+                    {
+                        x: $main.width() * 0.1,
+                        y: 0
+                    },
+                    {
+                        x: $main.width() * 0.12,
+                        y: elementDateLocation.position.top - (elementDateLocation.sizing.height * 0.5)
+                    },
+                    {
+                        x: elementDateLocation.position.left + (elementDateLocation.sizing.width * 0.1),
+                        y: elementDateLocation.position.top - (elementDateLocation.sizing.height * 0.2)
+                    },
+                    {
+                        x: elementDateLocation.position.left + (elementDateLocation.sizing.width * 0.3),
+                        y: elementDateLocation.position.top + (elementDateLocation.sizing.height * 0.4)
+                    },
+                    {
+                        x: elementRsvp.position.left + (elementRsvp.sizing.width * 0.5),
+                        y: elementRsvp.position.top + (elementRsvp.sizing.height * 0.5)
+                    },
+                    {
+                        x: elementCountdown.position.left + (elementCountdown.sizing.width * 0.2),
+                        y: elementCountdown.position.top + (elementCountdown.sizing.height * 0.5)
+                    },
+                    {
+                        x: elementOurWeddingDay.position.left,
+                        y: elementOurWeddingDay.position.top + (elementOurWeddingDay.sizing.height * 0.1)
+                    },
+                    {
+                        x: elementOurWeddingDay.position.left,
+                        y: elementOurWeddingDay.position.top + (elementOurWeddingDay.sizing.height * 1.1)
+                    },
+                    {
+                        desktop: {
+                            x: elementForest.position.left - (elementForest.sizing.width * 0.1),
+                            y: elementForest.position.top + (elementForest.sizing.height * 0.4)
+                        },
+                        mobile: {
+                            x: elementForest.position.left - (elementForest.sizing.width * 0.1),
+                            y: elementForest.position.top + (elementForest.sizing.height * 0.5)
+                        }
+                    },
+                    {
+                        desktop: {
+                            x: elementForest.position.left + (elementForest.sizing.width * 0.5),
+                            y: elementForest.position.top + (elementForest.sizing.height * 0.52)
+                        }
+                    },
+                    {
+                        desktop: {
+                            x: elementForest.position.left + (elementForest.sizing.width * 1.4),
+                            y: elementForest.position.top + (elementForest.sizing.height * 0.9)
+                        },
+                        mobile: {
+                            x: elementForest.position.left + (elementForest.sizing.width * 1.6),
+                            y: elementForest.position.top + (elementForest.sizing.height * 0.7)
+                        }
+                    },
+                    {
+                        desktop: {
+                            x: elementImportantBits.position.left + (elementImportantBits.sizing.width * 1.05),
+                            y: elementImportantBits.position.top + (elementImportantBits.sizing.height * 0.9)
+                        },
+                        mobile: {
+                            x: elementImportantBits.position.left + (elementImportantBits.sizing.width * 1.1),
+                            y: elementImportantBits.position.top + (elementImportantBits.sizing.height * 1)
+                        }
+                    },
+                    {
+                        desktop: {
+                            x: elementSchedule.position.left - (elementSchedule.sizing.width * 0.7),
+                            y: elementSchedule.position.top + (elementSchedule.sizing.height * 0.2)
+                        },
+                        mobile: {
+                            x: elementSchedule.position.left - (elementSchedule.sizing.width * 0.5),
+                            y: elementSchedule.position.top + (elementSchedule.sizing.height * 0)
+                        }
+                    },
+                    {
+                        desktop: {
+                            x: elementSchedule.position.left - (elementSchedule.sizing.width * 0.7),
+                            y: elementSchedule.position.top + (elementSchedule.sizing.height * 0.9)
+                        }
+                    },
+                    {
+                        desktop: {
+                            x: elementAccommodation.position.left + (elementAccommodation.sizing.width * 1.4),
+                            y: elementAccommodation.position.top + (elementAccommodation.sizing.height * 0.2)
+                        }
+                    },
+                    {
+                        x: elementAccommodation.position.left + (elementAccommodation.sizing.width * 1.4),
+                        y: elementAccommodation.position.top + (elementAccommodation.sizing.height * 0.9)
+                    },
+                    {
+                        desktop:{
+                            x: elementGiftRegistry.position.left - (elementGiftRegistry.sizing.width * 0.7),
+                            y: elementGiftRegistry.position.top + (elementGiftRegistry.sizing.height * 0.2)
+                        }
+                    },
+                    {
+                        x: elementGiftRegistry.position.left - (elementGiftRegistry.sizing.width * 0.7),
+                        y: elementGiftRegistry.position.top + (elementGiftRegistry.sizing.height * 0.9)
+                    },
+                    {
+                        desktop:{
+                            x: elementSongRequests.position.left + (elementSongRequests.sizing.width * 1.4),
+                            y: elementSongRequests.position.top + (elementSongRequests.sizing.height * 0.5)
+                        }
+                    },
+                    {
+                        x: elementSongRequests.position.left + (elementSongRequests.sizing.width * 1.4),
+                        y: elementSongRequests.position.top + (elementSongRequests.sizing.height * 2)
+                    }
+                ],
+                (d) => {
+                    try {
+                        const coord = getCoOrdinate('x')(d);
+                        return !!coord;
+                    } catch (e) {
+                        return false;
+                    }
                 }
-            ];
+            );
+
+
 
             // Generate interpolated line from points
             const guideLine = d3.line()
-                .curve(d3.curveNatural)
-                .x(d => d.x)
-                .y(d => d.y);
+                .curve(getCurve())
+                .x(getCoOrdinate('x'))
+                .y(getCoOrdinate('y'));
 
             // SVG groups
             const guideGroup = dFootpath.append('g');
