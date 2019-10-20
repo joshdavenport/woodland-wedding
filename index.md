@@ -56,7 +56,7 @@ the ceremony will begin at 2.30pm so please arrive with plenty of time.
 
 there will be food served at around 4.30pm, as well as some small snacks beforehand, but be sure to start your day with a hearty breakfast so you aren’t hungry later!
 
-there will also be some more food served later into the evening to keep you fuelled for dancing. there will be bar on site that accepts card and cash.
+there will also be some more food served later into the evening to keep you fuelled for dancing. there will be a bar on site that accepts card and cash.
 
 please do let us know when you rsvp if you have any specific dietary requirements that we aren’t already aware of.
 {% endcontentfor %}
