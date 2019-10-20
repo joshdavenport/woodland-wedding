@@ -100,6 +100,12 @@ body {
   }
 }
 
+em {
+  font-style: normal;
+  text-shadow: 1px 1px 0px rgba(130, 140, 115, 0.6), -1px 1px 0px rgba(130, 140, 115, 0.6);
+  color: black;
+}
+
 h2 {
   font-family: 'Ladies Rock';
   text-transform: lowercase;
@@ -377,6 +383,12 @@ a.button {
       font-size: 1.4rem;
       margin-left: 3rem;
       margin-right: 3rem;
+
+      @include mq($from: mobile, $until: tablet) {
+        font-size: 1.3rem;
+        margin-left: 1rem;
+        margin-right: 1rem;
+      }
 
       @include mq($until: mobile) {
         font-size: 1.15rem;
