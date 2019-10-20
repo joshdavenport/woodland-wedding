@@ -9,7 +9,7 @@
         return {
             $el: $element,
             position: $element.position(),
-            sizing: { width: $element.outerWidth(), height: $element.outerHeight() }
+            sizing: { width: $element.outerWidth(true), height: $element.outerHeight(true) }
         };
     }
 
@@ -88,7 +88,7 @@
                         },
                         mobile: {
                             x: elementForest.position.left - (elementForest.sizing.width * 0.1),
-                            y: elementForest.position.top + (elementForest.sizing.height * 0.5)
+                            y: elementForest.position.top + (elementForest.sizing.height * 0.45)
                         }
                     },
                     {
@@ -103,8 +103,14 @@
                             y: elementForest.position.top + (elementForest.sizing.height * 0.9)
                         },
                         mobile: {
-                            x: elementForest.position.left + (elementForest.sizing.width * 1.6),
-                            y: elementForest.position.top + (elementForest.sizing.height * 0.7)
+                            x: elementForest.position.left + (elementForest.sizing.width * 1.4),
+                            y: elementForest.position.top + (elementForest.sizing.height * 0.6)
+                        }
+                    },
+                    {
+                        mobile: {
+                            x: elementImportantBits.position.left + (elementImportantBits.sizing.width * 0.8),
+                            y: elementImportantBits.position.top + (elementImportantBits.sizing.height * 0.1)
                         }
                     },
                     {
@@ -113,7 +119,7 @@
                             y: elementImportantBits.position.top + (elementImportantBits.sizing.height * 0.9)
                         },
                         mobile: {
-                            x: elementImportantBits.position.left + (elementImportantBits.sizing.width * 1.1),
+                            x: elementImportantBits.position.left + (elementImportantBits.sizing.width * 0.6),
                             y: elementImportantBits.position.top + (elementImportantBits.sizing.height * 1)
                         }
                     },
@@ -220,12 +226,19 @@
             dFootpath.attr('class', 'ready');
         }
 
-        drawWalkway();
+        $(window).on('load', function () {
+            // draw.clear();
+            drawWalkway();
+        });
+
         $(window).on('resize', function () {
             // draw.clear();
             drawWalkway();
         });
 
+        $body.imagesLoaded().progress( function( instance, image ) {
+          $(image.img).addClass('loaded');
+        });
 
         /**
          * days
@@ -236,7 +249,10 @@
             $('#box-content-sign-count').css('visibility', 'hidden');
         } else {
             daysLeft.toString().split('').forEach(num => {
-                $numberContainer.append(`<img src="/assets/images/numbers-assets/${num}.png">`);
+                $numberContainer.append(`<img src="/assets/images/numbers-assets/${num}.png">`)
+                $numberContainer.imagesLoaded().progress( function( instance, image ) {
+                    $(image.img).addClass('loaded');
+                });
             });
         }
 

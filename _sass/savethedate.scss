@@ -94,9 +94,12 @@ body {
   text-shadow: 1px 2px 1px hsla(85, 10%, 50%, 0.2);
   color: #585858;
 
+  @include mq($from: mobile, $until: tablet) {
+    font-size: 17px;
+  }
+
   @include mq($until: mobile) {
-    font-size: 16px;
-  
+    font-size: 15px;
   }
 }
 
@@ -113,6 +116,10 @@ h2 {
   font-size: 4rem;
   margin: 0 0 1rem;
 
+  @include mq($from: mobile, $until: tablet) {
+    font-size: 3.4rem;
+  }
+
   @include mq($until: mobile) {
     font-size: 3rem;
   }
@@ -121,6 +128,12 @@ h2 {
 img {
   width: 100%;
   height: auto;
+  opacity: 0;
+  transition: 200ms ease opacity;
+
+  &.loaded {
+    opacity: 1;
+  }
 }
 
 a.button {
@@ -170,22 +183,16 @@ a.button {
   top: 0;
   left: 0;
   z-index: -2;
+  opacity: 0;
+  transition: 500ms ease opacity;
 
-  @include mq($until: tablet) {
-    opacity: 0.13;
+  &.ready {
+    opacity: 1;
+
+    @include mq($until: tablet) {
+      opacity: 0.13;
+    }
   }
-
-  // &.ready {
-  //  image {
-  //    opacity: 1;
-  //  }
-  // }
-
-  // image {
-  //   @include nth-child-transition-delay(400, 10ms);
-  //   opacity: 0;
-  //   transition: 500ms ease opacity;
-  // }
 }
 
 .boxes {
@@ -251,6 +258,9 @@ a.button {
 
           @include mq($until: tabletSmall) {
             transform: scale(1.5);
+            max-width: 350px;
+            margin: 0 auto;
+            display: block;
           }
 
           @include mq($from: tabletSmall) {
@@ -261,13 +271,13 @@ a.button {
 
       #name-rsvp {
         @include mq($until: tabletSmall) {
+          padding-top: 2rem;
           grid-column: 2 / 6;
-          margin: 15% 0 0;
         }
 
         @include mq($from: tabletSmall) {
+          padding-top: 4rem;
           grid-column: 4 / 6;
-          margin-top: -12%;
           margin-left: -10%;
         }
 
@@ -297,6 +307,16 @@ a.button {
     @include mq($until: tablet) {
       grid-column: 2 / 12;
       text-align: center;
+    }
+    
+    @include mq($until: mobile) {
+      font-size: 1.6rem;
+    }
+
+    br {
+      @include mq($from: mobile) {
+        display: none;
+      }
     }
 
     .button {
@@ -401,7 +421,7 @@ a.button {
   &#box-forest {
     @include mq($from: tablet) {
       grid-column: 4 / 9;
-      padding: 8rem 0 6rem;
+      padding: 6rem 0 6rem;
     }
 
     @include mq($until: tablet) {
