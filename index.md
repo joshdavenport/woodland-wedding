@@ -8,7 +8,7 @@ we’re finally tying the knot! we really hope you can make it to our outdoor wo
 
 please *arrive for 2pm*. we expect things to finish up around midnight.
 
-*please rsvp by 26th april 2020*. 
+*please rsvp by 28th february 2021*. 
 
 now, please stroll a little further down for some important bits of info.
 {% endcontentfor %}
@@ -86,7 +86,7 @@ there is also space for campervans (but no caravans.) let us know if you want to
 ## gift registry
 your presence at our wedding is more than enough. If you really want to get us something, then we are using Patchwork for contributions to our honeymoon. 
 
-gift registry will open in March 2020. 
+gift registry will open in March 2021. 
 {% endcontentfor %}
 
 

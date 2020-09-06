@@ -243,7 +243,7 @@
         /**
          * days
          */
-        const daysLeft = dayjs('2020-08-28').diff(dayjs(), 'day') + 1;
+        const daysLeft = dayjs('2021-08-27').diff(dayjs(), 'day') + 1;
         const $numberContainer = $('#sign-count-numbers');
         if(daysLeft < 0) {
             $('#box-content-sign-count').css('visibility', 'hidden');

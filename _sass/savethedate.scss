@@ -90,7 +90,7 @@ body {
 	font-family: 'Lumier Rounded';
   font-size: 19px;
   overflow-x: hidden;
-  background: hsla(85, 100%, 99%, 0.28);
+  background: hsla(85, 100%, 99%, 0.28) url('/assets/images/texture.jpg');
   text-shadow: 1px 2px 1px hsla(85, 10%, 50%, 0.2);
   color: #585858;
 
@@ -113,7 +113,7 @@ h2 {
   font-family: 'Ladies Rock';
   text-transform: lowercase;
   font-weight: 400;
-  font-size: 4rem;
+  font-size: 5rem;
   margin: 0 0 1rem;
 
   @include mq($from: mobile, $until: tablet) {
