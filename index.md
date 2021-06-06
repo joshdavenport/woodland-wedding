@@ -84,7 +84,7 @@ there is also space for campervans (but no caravans.) let us know if you want to
 
 {% contentfor gift_registry %}
 ## gift registry
-your presence at our wedding is more than enough. if you really want to gift something we're saving up for a honeymoon for which any contribution would be massively appreciated.
+your presence at our wedding is more than enough. if you really want to gift something a contribution to our honeymoon would be greatly appreciated.
 {% endcontentfor %}
 
 
