@@ -85,6 +85,8 @@ there is also space for campervans (but no caravans.) let us know if you want to
 {% contentfor gift_registry %}
 ## gift registry
 your presence at our wedding is more than enough. if you really want to gift something a contribution to our honeymoon would be greatly appreciated.
+
+<a href="https://www.paypal.com/pools/c/8zHye3KwJB" class="button secondary">contribution via PayPal</a>
 {% endcontentfor %}
 
 
