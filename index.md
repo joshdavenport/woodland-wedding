@@ -32,7 +32,7 @@ please find some recommended taxi companies in our [local hotel info](/assets/lo
 
 ### parking
 
-the venue has a dedicated field for parking with ample space. vehicles can be left overnight but must be collected by 10am the next morning.
+the venue has a dedicated field for parking with ample space. vehicles can be left overnight but must be collected by 11am the next morning.
 
 ### dress code
 
